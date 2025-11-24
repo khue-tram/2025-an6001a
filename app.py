@@ -25,5 +25,21 @@ def dbs_prediction():
     r = model.predict([[q]])
     return(render_template("dbs_prediction.html",r=r[0][0]))
 
+@app.route("/creditability",methods=["GET","POST"])
+def creditability():
+    return(render_template("creditability.html"))
+
+@app.route("/creditability_prediction",methods=["GET","POST"])
+def creditability_prediction():
+    q = float(request.form.get("q"))
+    print(q)
+    model = joblib.load("german_credit (RF).pkl")
+    r = model.predict([[q]])
+    if r == 0:
+        r = "Creditable"
+    else:
+        r = "Not Creditable"
+    return(render_template("creditability_prediction.html"))
+
 if __name__ == "__main__":
     app.run()
